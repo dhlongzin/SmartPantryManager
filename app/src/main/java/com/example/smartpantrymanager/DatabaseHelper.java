@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Creates the SQLite database, defines the three tables and seeds the
  * recipe collection on first run. CRUD methods for pantry items are
@@ -209,5 +212,85 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (c.moveToFirst()) count = c.getInt(0);
         c.close();
         return count;
+    }
+
+    // ---------------------------------------------------------------
+    // Pantry (ingredient) methods
+    // ---------------------------------------------------------------
+
+    /** Adds a pantry item. The name is stored lowercase/trimmed so matching stays simple. */
+    public long insertIngredient(Ingredient ingredient) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues v = new ContentValues();
+        v.put(COL_ING_NAME, ingredient.getName().trim().toLowerCase());
+        v.put(COL_ING_QTY, ingredient.getQuantity());
+        v.put(COL_ING_UNIT, ingredient.getUnit());
+        v.put(COL_ING_EXPIRY, ingredient.getExpiryDate());
+        return db.insert(TABLE_INGREDIENT, null, v);
+    }
+
+    /** Returns every pantry item, sorted by name. */
+    public List<Ingredient> getAllIngredients() {
+        List<Ingredient> list = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.query(TABLE_INGREDIENT, null, null, null, null, null, COL_ING_NAME + " ASC");
+        while (c.moveToNext()) {
+            list.add(new Ingredient(
+                    c.getLong(c.getColumnIndexOrThrow(COL_ING_ID)),
+                    c.getString(c.getColumnIndexOrThrow(COL_ING_NAME)),
+                    c.getDouble(c.getColumnIndexOrThrow(COL_ING_QTY)),
+                    c.getString(c.getColumnIndexOrThrow(COL_ING_UNIT)),
+                    c.getString(c.getColumnIndexOrThrow(COL_ING_EXPIRY))));
+        }
+        c.close();
+        return list;
+    }
+
+    /** Returns one pantry item by id, or null if it doesn't exist. */
+    public Ingredient getIngredientById(long id) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.query(TABLE_INGREDIENT, null, COL_ING_ID + " = ?",
+                new String[]{String.valueOf(id)}, null, null, null);
+        Ingredient ingredient = null;
+        if (c.moveToFirst()) {
+            ingredient = new Ingredient(
+                    c.getLong(c.getColumnIndexOrThrow(COL_ING_ID)),
+                    c.getString(c.getColumnIndexOrThrow(COL_ING_NAME)),
+                    c.getDouble(c.getColumnIndexOrThrow(COL_ING_QTY)),
+                    c.getString(c.getColumnIndexOrThrow(COL_ING_UNIT)),
+                    c.getString(c.getColumnIndexOrThrow(COL_ING_EXPIRY)));
+        }
+        c.close();
+        return ingredient;
+    }
+
+    /** Updates an existing pantry item. Returns the number of rows changed. */
+    public int updateIngredient(Ingredient ingredient) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues v = new ContentValues();
+        v.put(COL_ING_NAME, ingredient.getName().trim().toLowerCase());
+        v.put(COL_ING_QTY, ingredient.getQuantity());
+        v.put(COL_ING_UNIT, ingredient.getUnit());
+        v.put(COL_ING_EXPIRY, ingredient.getExpiryDate());
+        return db.update(TABLE_INGREDIENT, v, COL_ING_ID + " = ?",
+                new String[]{String.valueOf(ingredient.getId())});
+    }
+
+    /** True if another pantry item already has this name and unit (excludeId is skipped). */
+    public boolean ingredientExists(String name, String unit, long excludeId) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT 1 FROM " + TABLE_INGREDIENT
+                        + " WHERE " + COL_ING_NAME + " = ? AND " + COL_ING_UNIT + " = ? AND "
+                        + COL_ING_ID + " != ?",
+                new String[]{name.trim().toLowerCase(), unit, String.valueOf(excludeId)});
+        boolean exists = c.moveToFirst();
+        c.close();
+        return exists;
+    }
+    /** Deletes one pantry item by id. Returns the number of rows removed. */
+    public int deleteIngredient(long id) {
+        SQLiteDatabase db = getWritableDatabase();
+        return db.delete(TABLE_INGREDIENT, COL_ING_ID + " = ?",
+                new String[]{String.valueOf(id)});
     }
 }
