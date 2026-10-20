@@ -1,5 +1,6 @@
 package com.example.smartpantrymanager;
 
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -7,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
 /**
@@ -292,5 +295,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         return db.delete(TABLE_INGREDIENT, COL_ING_ID + " = ?",
                 new String[]{String.valueOf(id)});
+    }
+    /** Returns every recipe, each with its list of required ingredients filled in. */
+    public List<Recipe> getAllRecipes() {
+        SQLiteDatabase db = getReadableDatabase();
+        List<Recipe> recipes = new ArrayList<>();
+        Map<Long, Recipe> recipeById = new HashMap<>();
+
+        // 1. Read all recipes
+        Cursor c = db.query(TABLE_RECIPE, null, null, null, null, null, COL_REC_NAME + " ASC");
+        while (c.moveToNext()) {
+            Recipe recipe = new Recipe(
+                    c.getLong(c.getColumnIndexOrThrow(COL_REC_ID)),
+                    c.getString(c.getColumnIndexOrThrow(COL_REC_NAME)),
+                    c.getString(c.getColumnIndexOrThrow(COL_REC_STEPS)));
+            recipes.add(recipe);
+            recipeById.put(recipe.getId(), recipe);
+        }
+        c.close();
+
+        // 2. Read all ingredient lines and attach each to its recipe
+        Cursor ci = db.query(TABLE_RECIPE_ING, null, null, null, null, null, null);
+        while (ci.moveToNext()) {
+            RecipeIngredient ri = new RecipeIngredient(
+                    ci.getLong(ci.getColumnIndexOrThrow(COL_RI_ID)),
+                    ci.getLong(ci.getColumnIndexOrThrow(COL_RI_RECIPE_ID)),
+                    ci.getString(ci.getColumnIndexOrThrow(COL_RI_NAME)),
+                    ci.getDouble(ci.getColumnIndexOrThrow(COL_RI_QTY)),
+                    ci.getString(ci.getColumnIndexOrThrow(COL_RI_UNIT)));
+            Recipe owner = recipeById.get(ri.getRecipeId());
+            if (owner != null) {
+                owner.getIngredients().add(ri);
+            }
+        }
+        ci.close();
+        return recipes;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.smartpantrymanager;
 
+import android.widget.Button;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -83,6 +84,10 @@ public class MainActivity extends AppCompatActivity {
         // The + button opens the same screen in add mode (no id passed)
         fabAdd.setOnClickListener(v ->
                 startActivity(new Intent(MainActivity.this, AddEditIngredientActivity.class)));
+
+        Button buttonSuggested = findViewById(R.id.buttonSuggested);
+        buttonSuggested.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, SuggestedRecipesActivity.class)));
     }
 
     /** Re-reads the database every time the screen comes back into view. */
