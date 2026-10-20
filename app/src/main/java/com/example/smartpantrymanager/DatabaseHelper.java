@@ -331,4 +331,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ci.close();
         return recipes;
     }
+    /** Returns one recipe by id (with its ingredient lines), or null if not found. */
+    public Recipe getRecipeById(long id) {
+        SQLiteDatabase db = getReadableDatabase();
+        Recipe recipe = null;
+
+        Cursor c = db.query(TABLE_RECIPE, null, COL_REC_ID + " = ?",
+                new String[]{String.valueOf(id)}, null, null, null);
+        if (c.moveToFirst()) {
+            recipe = new Recipe(
+                    c.getLong(c.getColumnIndexOrThrow(COL_REC_ID)),
+                    c.getString(c.getColumnIndexOrThrow(COL_REC_NAME)),
+                    c.getString(c.getColumnIndexOrThrow(COL_REC_STEPS)));
+        }
+        c.close();
+        if (recipe == null) return null;
+
+        Cursor ci = db.query(TABLE_RECIPE_ING, null, COL_RI_RECIPE_ID + " = ?",
+                new String[]{String.valueOf(id)}, null, null, null);
+        while (ci.moveToNext()) {
+            recipe.getIngredients().add(new RecipeIngredient(
+                    ci.getLong(ci.getColumnIndexOrThrow(COL_RI_ID)),
+                    ci.getLong(ci.getColumnIndexOrThrow(COL_RI_RECIPE_ID)),
+                    ci.getString(ci.getColumnIndexOrThrow(COL_RI_NAME)),
+                    ci.getDouble(ci.getColumnIndexOrThrow(COL_RI_QTY)),
+                    ci.getString(ci.getColumnIndexOrThrow(COL_RI_UNIT))));
+        }
+        ci.close();
+        return recipe;
+    }
 }
