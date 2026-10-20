@@ -1,21 +1,20 @@
 package com.example.smartpantrymanager;
 
-import android.widget.Button;
-import android.widget.Toast;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import android.content.SharedPreferences;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,9 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Pantry List screen: shows every ingredient stored in the database
- * using a RecyclerView and the IngredientAdapter. From here the user can
- * add a new ingredient (+ button) or edit one (tap a row) via Intents.
+ * Pantry List screen: shows every ingredient stored in the database using a
+ * RecyclerView and the IngredientAdapter. From here the user can add an
+ * ingredient (+ button), edit one (tap a row), or delete one (swipe a row).
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -86,13 +85,8 @@ public class MainActivity extends AppCompatActivity {
         fabAdd.setOnClickListener(v ->
                 startActivity(new Intent(MainActivity.this, AddEditIngredientActivity.class)));
 
-        Button buttonSuggested = findViewById(R.id.buttonSuggested);
-        buttonSuggested.setOnClickListener(v ->
-                startActivity(new Intent(MainActivity.this, SuggestedRecipesActivity.class)));
-
-        Button buttonSettings = findViewById(R.id.buttonSettings);
-        buttonSettings.setOnClickListener(v ->
-                startActivity(new Intent(MainActivity.this, SettingsActivity.class)));
+        // Bottom navigation: highlight the Pantry tab
+        NavigationHelper.setup(this, R.id.nav_pantry);
     }
 
     /** Re-reads the database every time the screen comes back into view. */
