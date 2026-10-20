@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import android.content.SharedPreferences;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -88,12 +89,19 @@ public class MainActivity extends AppCompatActivity {
         Button buttonSuggested = findViewById(R.id.buttonSuggested);
         buttonSuggested.setOnClickListener(v ->
                 startActivity(new Intent(MainActivity.this, SuggestedRecipesActivity.class)));
+
+        Button buttonSettings = findViewById(R.id.buttonSettings);
+        buttonSettings.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class)));
     }
 
     /** Re-reads the database every time the screen comes back into view. */
     @Override
     protected void onResume() {
         super.onResume();
+        // Read the Settings toggle before drawing the list
+        SharedPreferences prefs = getSharedPreferences(SettingsActivity.PREFS_NAME, MODE_PRIVATE);
+        adapter.setShowExpiryWarnings(prefs.getBoolean(SettingsActivity.KEY_EXPIRY_WARNINGS, true));
         loadPantry();
     }
 

@@ -23,6 +23,14 @@
         android:layout_marginEnd="16dp"
         android:text="What can I cook?" />
 
+    <Button
+        android:id="@+id/buttonSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Settings" />
+
     <!-- List area: shows either the RecyclerView or the empty message -->
     <FrameLayout
         android:layout_width="match_parent"
