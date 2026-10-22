@@ -5,18 +5,10 @@ import android.content.Intent;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-/**
- * Sets up the bottom navigation bar shared by the three main screens
- * (Pantry, Recipes, Settings) so the same code is not repeated in each Activity.
- */
+
 public class NavigationHelper {
 
-    /**
-     * Highlights the current screen's tab and opens the other screens with Intents.
-     *
-     * @param activity       the screen that owns the navigation bar
-     * @param selectedItemId the menu id of that screen's own tab
-     */
+
     public static void setup(Activity activity, int selectedItemId) {
         BottomNavigationView nav = activity.findViewById(R.id.bottomNav);
 
@@ -26,7 +18,7 @@ public class NavigationHelper {
         nav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == selectedItemId) {
-                return true; // already on this screen
+                return true;
             }
 
             Class<?> target;
@@ -45,7 +37,6 @@ public class NavigationHelper {
             activity.startActivity(intent);
             activity.overridePendingTransition(0, 0);
 
-            // false keeps this screen's own tab highlighted if the user comes back
             return false;
         });
     }

@@ -6,24 +6,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-/**
- * Core business logic of the app: the strict-matching rule.
- *
- * A recipe is only "suggested" if EVERY ingredient it needs is in the pantry
- * in at least the required quantity. If even one ingredient is missing or
- * short, the whole recipe is excluded (no partial or "almost" matches).
- *
- * To cope with simple real-world messiness the matcher:
- *  - normalises names (case, extra spaces, simple plurals: tomatoes -> tomato)
- *  - converts compatible units (tbsp/tsp/ml) before comparing quantities
- *  - adds up quantities when the pantry holds the same item more than once
- */
 public class RecipeMatcher {
 
-    // Small tolerance so decimal rounding never rejects an exact match
     private static final double EPSILON = 0.0001;
 
-    /** Returns only the recipes the user can make with what is in the pantry right now. */
     public static List<Recipe> getSuggestedRecipes(List<Ingredient> pantry, List<Recipe> allRecipes) {
         Map<String, List<Ingredient>> pantryByName = groupPantryByName(pantry);
         List<Recipe> suggested = new ArrayList<>();
@@ -36,20 +22,20 @@ public class RecipeMatcher {
         return suggested;
     }
 
-    /** True only if every required ingredient is available in enough quantity. */
+    //True only if every required ingredient is available in enough quantity
     private static boolean canMake(Recipe recipe, Map<String, List<Ingredient>> pantryByName) {
         if (recipe.getIngredients().isEmpty()) {
-            return false; // a recipe with no ingredients should never be suggested
+            return false;
         }
         for (RecipeIngredient needed : recipe.getIngredients()) {
             if (!hasEnough(needed, pantryByName)) {
-                return false; // one missing or short ingredient excludes the whole recipe
+                return false;
             }
         }
         return true;
     }
 
-    /** Checks one required ingredient against the pantry. */
+    //Checks required ingredient against the pantry
     private static boolean hasEnough(RecipeIngredient needed, Map<String, List<Ingredient>> pantryByName) {
         List<Ingredient> matches = pantryByName.get(normalize(needed.getIngredientName()));
         if (matches == null) {
@@ -69,7 +55,6 @@ public class RecipeMatcher {
         return available + EPSILON >= required;
     }
 
-    /** Groups pantry items by their normalised name for quick lookup. */
     private static Map<String, List<Ingredient>> groupPantryByName(List<Ingredient> pantry) {
         Map<String, List<Ingredient>> map = new HashMap<>();
         for (Ingredient item : pantry) {
@@ -82,15 +67,7 @@ public class RecipeMatcher {
         return map;
     }
 
-    // ---------------------------------------------------------------
-    // Name normalisation
-    // ---------------------------------------------------------------
-
-    /**
-     * Lowercases, trims, collapses spaces/hyphens and makes the last word
-     * singular. The SAME method is applied to pantry names and recipe names,
-     * so both sides always end up in the same form.
-     */
+    //normalisation
     static String normalize(String name) {
         if (name == null) return "";
         String s = name.trim().toLowerCase(Locale.ROOT).replaceAll("[\\s\\-]+", " ");
@@ -100,24 +77,20 @@ public class RecipeMatcher {
         return prefix + toSingular(lastWord);
     }
 
-    /** Simple plural handling - not full NLP, but covers the common cases. */
     private static String toSingular(String w) {
         if (w.length() <= 3) return w;
-        if (w.endsWith("ies")) return w.substring(0, w.length() - 3) + "y";   // berries -> berry
+        if (w.endsWith("ies")) return w.substring(0, w.length() - 3) + "y";
         if (w.endsWith("oes") || w.endsWith("ches") || w.endsWith("shes")
                 || w.endsWith("xes") || w.endsWith("sses")) {
-            return w.substring(0, w.length() - 2);                            // tomatoes -> tomato
+            return w.substring(0, w.length() - 2);
         }
-        if (w.endsWith("ss")) return w;                                       // keep "glass"
-        if (w.endsWith("s")) return w.substring(0, w.length() - 1);           // eggs -> egg
+        if (w.endsWith("ss")) return w;
+        if (w.endsWith("s")) return w.substring(0, w.length() - 1);
         return w;
     }
 
-    // ---------------------------------------------------------------
     // Unit handling
-    // ---------------------------------------------------------------
 
-    /** Units can only be compared if they measure the same kind of thing. */
     private static String unitGroup(String unit) {
         String u = unit == null ? "" : unit.trim().toLowerCase(Locale.ROOT);
         switch (u) {
@@ -134,11 +107,10 @@ public class RecipeMatcher {
             case "pieces":
                 return "count";
             default:
-                return "other:" + u; // unknown units only match themselves
-        }
+                return "other:" + u;
     }
 
-    /** Converts a quantity to the base unit of its group (g, ml or pcs). */
+    //Converts a quantity to the unit
     private static double toBaseUnit(double qty, String unit) {
         String u = unit == null ? "" : unit.trim().toLowerCase(Locale.ROOT);
         switch (u) {

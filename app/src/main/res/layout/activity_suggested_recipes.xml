@@ -27,7 +27,7 @@
         android:text="Recipes you can cook right now with what you have"
         android:textSize="14sp" />
 
-    <!-- List area: shows either the RecyclerView or the empty message -->
+    <!-- List area -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -50,7 +50,7 @@
             android:visibility="gone" />
     </FrameLayout>
 
-    <!-- Bottom navigation bar: Pantry / Recipes / Settings -->
+    <!-- Bottom navigation bar-->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"

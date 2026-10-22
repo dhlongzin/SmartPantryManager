@@ -16,7 +16,7 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <!-- Quantity and unit, e.g. "6 pcs" -->
+    <!-- Quantity and unit -->
     <TextView
         android:id="@+id/textQuantity"
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
         android:layout_marginTop="2dp"
         android:textSize="14sp" />
 
-    <!-- Expiry date (hidden when none is set) -->
+    <!-- Expiry date -->
     <TextView
         android:id="@+id/textExpiry"
         android:layout_width="match_parent"
@@ -32,7 +32,7 @@
         android:layout_marginTop="2dp"
         android:textSize="12sp" />
 
-    <!-- Thin divider line -->
+    <!-- divider line -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

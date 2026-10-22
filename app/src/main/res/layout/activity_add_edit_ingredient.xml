@@ -11,7 +11,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Title changes between "Add Ingredient" and "Edit Ingredient" -->
+        <!-- Title changes" -->
         <TextView
             android:id="@+id/textScreenTitle"
             android:layout_width="match_parent"
@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp" />
 
-        <!-- Tap to open a date picker, long-press to clear -->
+        <!-- Tap to open a date picker -->
         <EditText
             android:id="@+id/editExpiry"
             android:layout_width="match_parent"
@@ -56,7 +56,7 @@
             android:layout_marginTop="8dp"
             android:clickable="true"
             android:focusable="false"
-            android:hint="Expiry date (optional) - tap to pick, hold to clear"
+            android:hint="Expiry date"
             android:inputType="none" />
 
         <Button

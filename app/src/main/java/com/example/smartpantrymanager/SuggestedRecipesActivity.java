@@ -17,10 +17,6 @@ import android.content.Intent;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Suggested Recipes screen: runs the strict-matching rule (RecipeMatcher)
- * against the current pantry and lists only the recipes the user can make.
- */
 public class SuggestedRecipesActivity extends AppCompatActivity {
 
     private DatabaseHelper dbHelper;
@@ -55,7 +51,6 @@ public class SuggestedRecipesActivity extends AppCompatActivity {
         NavigationHelper.setup(this, R.id.nav_suggested);
     }
 
-    /** Re-runs the matching every time the screen is shown, so it always reflects the pantry. */
     @Override
     protected void onResume() {
         super.onResume();
@@ -69,7 +64,7 @@ public class SuggestedRecipesActivity extends AppCompatActivity {
 
         adapter.updateData(suggested);
 
-        // Friendly message instead of a blank screen when nothing matches
+        //message instead of a blank screen when nothing matches
         if (suggested.isEmpty()) {
             recyclerRecipes.setVisibility(View.GONE);
             textNoMatches.setVisibility(View.VISIBLE);

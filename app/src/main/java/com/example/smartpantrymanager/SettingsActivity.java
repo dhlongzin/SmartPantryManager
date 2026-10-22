@@ -11,13 +11,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
-/**
- * Settings screen. The expiring-soon toggle is saved in SharedPreferences,
- * so the choice is remembered after the app is closed and reopened.
- */
 public class SettingsActivity extends AppCompatActivity {
 
-    // Shared with MainActivity, which reads the setting
     public static final String PREFS_NAME = "pantry_settings";
     public static final String KEY_EXPIRY_WARNINGS = "expiry_warnings";
 
@@ -34,15 +29,15 @@ public class SettingsActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
 
-        // Show the saved value (warnings are ON by default)
+        // Show the saved value
         SwitchMaterial switchExpiry = findViewById(R.id.switchExpiryWarnings);
         switchExpiry.setChecked(prefs.getBoolean(KEY_EXPIRY_WARNINGS, true));
 
-        // Save the new value as soon as the switch is flipped
+        // Save the new value when switch is clicked
         switchExpiry.setOnCheckedChangeListener((buttonView, isChecked) ->
                 prefs.edit().putBoolean(KEY_EXPIRY_WARNINGS, isChecked).apply());
 
-        // Bottom navigation: highlight the Settings tab
+        // Bottom navigation
         NavigationHelper.setup(this, R.id.nav_settings);
     }
 }

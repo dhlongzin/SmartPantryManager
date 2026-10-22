@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!-- Settings content -->
+    <!-- settings content -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -22,7 +22,7 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <!-- Expiring-soon warnings toggle -->
+        <!-- Expiring soon warning button -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
             android:textSize="14sp" />
     </LinearLayout>
 
-    <!-- Bottom navigation bar: Pantry / Recipes / Settings -->
+    <!-- Bottom navigation bar-->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"

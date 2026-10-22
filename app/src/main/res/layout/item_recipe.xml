@@ -16,7 +16,7 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <!-- Short list of the ingredients used -->
+    <!-- list of the ingredients used -->
     <TextView
         android:id="@+id/textRecipeIngredients"
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
         android:layout_marginTop="2dp"
         android:textSize="14sp" />
 
-    <!-- Thin divider line -->
+    <!-- divider line -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

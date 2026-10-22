@@ -10,13 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-/**
- * Custom Adapter that shows the suggested recipes in a RecyclerView.
- * Each row shows the recipe name and a short list of its ingredients.
- */
+
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
 
-    /** Lets the Activity react when a recipe row is tapped. */
     public interface OnRecipeClickListener {
         void onRecipeClick(Recipe recipe);
     }
@@ -29,7 +25,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         this.listener = listener;
     }
 
-    /** Replaces the data and redraws the list. */
     public void updateData(List<Recipe> newRecipes) {
         this.recipes = newRecipes;
         notifyDataSetChanged();
@@ -48,7 +43,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         Recipe recipe = recipes.get(position);
         holder.textName.setText(recipe.getName());
 
-        // Build "egg, bread, butter" from the recipe's ingredient lines
+        // Build from the recipe ingredient lines
         StringBuilder names = new StringBuilder();
         for (RecipeIngredient ri : recipe.getIngredients()) {
             if (names.length() > 0) names.append(", ");
@@ -64,12 +59,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         return recipes.size();
     }
 
-    /** Holds the views of one row. */
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textName;
         TextView textIngredients;
 
-        ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textName = itemView.findViewById(R.id.textRecipeName);
             textIngredients = itemView.findViewById(R.id.textRecipeIngredients);

@@ -1,10 +1,6 @@
 package com.example.smartpantrymanager;
 
-/**
- * One ingredient line a recipe needs (row in "recipe_ingredient").
- * ingredientName is stored lowercase and singular so matching against
- * the pantry stays simple (e.g. "tomato", not "Tomatoes").
- */
+
 public class RecipeIngredient {
     private long id;
     private long recipeId;

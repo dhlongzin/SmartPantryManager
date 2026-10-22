@@ -11,13 +11,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-/**
- * Recipe Detail screen: shows the full ingredient list and the method for
- * the recipe whose id was passed in through the Intent.
- */
+
 public class RecipeDetailActivity extends AppCompatActivity {
 
-    /** Key used to pass the recipe id from SuggestedRecipesActivity through the Intent. */
     public static final String EXTRA_RECIPE_ID = "recipe_id";
 
     @Override
@@ -49,7 +45,6 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
         textTitle.setText(recipe.getName());
 
-        // Build one line per ingredient, e.g. "- Egg: 2 pcs"
         StringBuilder ingredients = new StringBuilder();
         for (RecipeIngredient ri : recipe.getIngredients()) {
             if (ingredients.length() > 0) ingredients.append("\n");

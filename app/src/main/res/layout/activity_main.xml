@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!-- Screen title -->
+    <!-- Screen name -->
     <TextView
         android:id="@+id/textTitle"
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
         android:textSize="24sp"
         android:textStyle="bold" />
 
-    <!-- List area: shows either the RecyclerView or the empty message -->
+    <!-- List area shows either the RecyclerView or the empty message -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -40,7 +40,7 @@
             android:textSize="16sp"
             android:visibility="gone" />
 
-        <!-- Opens the Add/Edit screen in "add" mode -->
+        <!-- opens the Add/Edit screen -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabAdd"
             android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
             android:src="@android:drawable/ic_input_add" />
     </FrameLayout>
 
-    <!-- Bottom navigation bar: Pantry / Recipes / Settings -->
+    <!-- Bottom navigation bar -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
