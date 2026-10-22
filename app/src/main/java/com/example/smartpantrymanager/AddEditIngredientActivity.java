@@ -177,7 +177,8 @@ public class AddEditIngredientActivity extends AppCompatActivity {
             dbHelper.updateIngredient(ingredient);
             Toast.makeText(this, "Ingredient updated", Toast.LENGTH_SHORT).show();
         }
-        finish(); // returns to the Pantry List, whose onResume() reloads the data
+        finish();
+
     }
 
     private String formatQuantity(double qty) {
