@@ -108,6 +108,7 @@ public class RecipeMatcher {
                 return "count";
             default:
                 return "other:" + u;
+        }
     }
 
     //Converts a quantity to the unit
