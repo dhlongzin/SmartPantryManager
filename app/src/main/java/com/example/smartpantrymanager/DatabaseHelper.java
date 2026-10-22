@@ -120,10 +120,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ri("flour", 300, "g"), ri("yeast", 10, "g"),
                 ri("sugar", 1, "tbsp"), ri("cooking oil", 250, "ml"));
 
-        addRecipe(db, "Samp and Beans",
-                "1. Soak the samp and beans overnight.\n2. Boil them together for 2 to 3 hours until soft.\n3. Fry the onion in butter and stir it through.",
-                ri("samp", 250, "g"), ri("sugar bean", 200, "g"),
-                ri("onion", 1, "pcs"), ri("butter", 20, "g"));
 
         addRecipe(db, "Chakalaka",
                 "1. Fry chopped onion in oil.\n2. Add grated carrot and curry powder and cook for 5 minutes.\n3. Add chopped tomatoes and simmer for 10 minutes.",
@@ -142,6 +138,69 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         addRecipe(db, "Maize Meal Porridge",
                 "1. Heat the milk until it starts to simmer.\n2. Slowly stir in the maize meal.\n3. Cook on low heat for 10 minutes, stirring often.\n4. Add sugar and serve.",
                 ri("maize meal", 100, "g"), ri("milk", 250, "ml"), ri("sugar", 1, "tbsp"));
+
+        addRecipe(db, "Chicken Stew",
+                "1. Brown the chicken pieces in oil.\n2. Add chopped onion and tomatoes and cook until soft.\n3. Add the potatoes and a cup of water.\n4. Simmer for 40 minutes until the chicken is tender.",
+                ri("chicken", 400, "g"), ri("potato", 2, "pcs"), ri("onion", 1, "pcs"),
+                ri("tomato", 2, "pcs"), ri("cooking oil", 1, "tbsp"));
+
+        addRecipe(db, "Beef Stew",
+                "1. Brown the beef cubes in oil.\n2. Add chopped onion and cook for 5 minutes.\n3. Add the carrots, potatoes and enough water to cover.\n4. Simmer for 1 hour 30 minutes until the meat is soft.",
+                ri("beef", 400, "g"), ri("potato", 2, "pcs"), ri("carrot", 2, "pcs"),
+                ri("onion", 1, "pcs"), ri("cooking oil", 1, "tbsp"));
+
+        addRecipe(db, "Chicken Curry and Rice",
+                "1. Cook the rice.\n2. Fry the onion in oil, add the curry powder and chicken.\n3. Add chopped tomato and a little water.\n4. Simmer for 30 minutes and serve over the rice.",
+                ri("chicken", 400, "g"), ri("rice", 200, "g"), ri("onion", 1, "pcs"),
+                ri("tomato", 1, "pcs"), ri("curry powder", 2, "tsp"));
+
+        addRecipe(db, "Cabbage and Potato Stew",
+                "1. Fry the onion in oil.\n2. Add the diced potatoes and a little water and cook for 10 minutes.\n3. Add the chopped cabbage and cook until soft.",
+                ri("cabbage", 400, "g"), ri("potato", 2, "pcs"), ri("onion", 1, "pcs"),
+                ri("cooking oil", 1, "tbsp"));
+
+        addRecipe(db, "Pilchards and Pap",
+                "1. Cook the pap until thick.\n2. Fry the onion and tomato until soft.\n3. Add the pilchards and heat through.\n4. Serve with the pap.",
+                ri("pilchard", 1, "pcs"), ri("maize meal", 250, "g"), ri("onion", 1, "pcs"),
+                ri("tomato", 1, "pcs"));
+
+        addRecipe(db, "Morogo with Pap",
+                "1. Cook the pap until thick.\n2. Fry the onion in oil, add the chopped spinach and cook for 10 minutes.\n3. Serve the morogo with the pap.",
+                ri("spinach", 300, "g"), ri("maize meal", 250, "g"), ri("onion", 1, "pcs"),
+                ri("cooking oil", 1, "tbsp"));
+
+        addRecipe(db, "Tomato Gravy and Bread",
+                "1. Fry the chopped onion in oil.\n2. Add the chopped tomatoes and simmer for 15 minutes until thick.\n3. Serve the gravy with the bread.",
+                ri("tomato", 3, "pcs"), ri("onion", 1, "pcs"), ri("cooking oil", 1, "tbsp"),
+                ri("bread", 4, "pcs"));
+
+        addRecipe(db, "Slap Chips",
+                "1. Peel the potatoes and cut them into thick strips.\n2. Fry in hot oil until soft and golden.\n3. Drain and sprinkle with vinegar.",
+                ri("potato", 4, "pcs"), ri("cooking oil", 300, "ml"), ri("vinegar", 1, "tbsp"));
+
+        addRecipe(db, "Mealie Bread",
+                "1. Mix the flour, baking powder and sugar.\n2. Stir in the sweetcorn, eggs, milk and melted butter.\n3. Pour into a greased tin.\n4. Bake at 180C for 45 minutes.",
+                ri("flour", 250, "g"), ri("sweetcorn", 200, "g"), ri("egg", 2, "pcs"),
+                ri("milk", 250, "ml"), ri("sugar", 2, "tbsp"), ri("butter", 50, "g"),
+                ri("baking powder", 2, "tsp"));
+
+        addRecipe(db, "Pannekoek with Cinnamon Sugar",
+                "1. Whisk the flour, eggs and milk into a thin batter.\n2. Fry a thin layer in a hot pan until golden on both sides.\n3. Sprinkle with sugar and cinnamon and roll up.",
+                ri("flour", 150, "g"), ri("egg", 2, "pcs"), ri("milk", 300, "ml"),
+                ri("sugar", 2, "tbsp"), ri("cinnamon", 1, "tsp"));
+
+        addRecipe(db, "Pumpkin Fritters",
+                "1. Boil and mash the pumpkin.\n2. Mix in the flour, egg and sugar to make a thick batter.\n3. Fry spoonfuls in hot oil until golden.\n4. Roll in cinnamon.",
+                ri("pumpkin", 300, "g"), ri("flour", 100, "g"), ri("egg", 1, "pcs"),
+                ri("sugar", 1, "tbsp"), ri("cooking oil", 100, "ml"), ri("cinnamon", 1, "tsp"));
+
+        addRecipe(db, "Baked Sweet Potato",
+                "1. Wash the sweet potatoes and prick them with a fork.\n2. Bake at 200C for 45 minutes until soft.\n3. Cut open and add butter.",
+                ri("sweet potato", 2, "pcs"), ri("butter", 20, "g"));
+
+        addRecipe(db, "Peanut Butter Sandwich",
+                "1. Butter both slices of bread.\n2. Spread peanut butter on one slice.\n3. Close the sandwich and cut in half.",
+                ri("bread", 2, "pcs"), ri("peanut butter", 2, "tbsp"), ri("butter", 10, "g"));
     }
 
 
