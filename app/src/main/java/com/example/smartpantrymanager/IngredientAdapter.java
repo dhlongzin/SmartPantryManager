@@ -17,15 +17,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Custom Adapter that binds a list of Ingredient objects (read from the
- * SQLite database) to the rows of the pantry RecyclerView. When expiry
- * warnings are switched on in Settings, items that have expired or expire
- * within 3 days are highlighted.
- */
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.ViewHolder> {
 
-    /** Lets the Activity react when a row is tapped. */
+
     public interface OnItemClickListener {
         void onItemClick(Ingredient ingredient);
     }
@@ -43,18 +37,17 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         this.listener = listener;
     }
 
-    /** Turns the expiring-soon highlighting on or off (comes from Settings). */
+    //Turns the expiring-soon
     public void setShowExpiryWarnings(boolean show) {
         this.showExpiryWarnings = show;
     }
 
-    /** Replaces the data and redraws the list (called after the database is re-read). */
+
     public void updateData(List<Ingredient> newItems) {
         this.items = newItems;
         notifyDataSetChanged();
     }
 
-    /** Creates a row view from item_ingredient.xml and wraps it in a ViewHolder. */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -63,7 +56,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         return new ViewHolder(view);
     }
 
-    /** Fills one row with the data of the ingredient at this position. */
+    //Fills one row with the data of the ingredient at this position
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Ingredient ingredient = items.get(position);
@@ -94,15 +87,14 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         return items.size();
     }
 
-    /** Returns the ingredient shown at a given row. */
     public Ingredient getItemAt(int position) {
         return items.get(position);
     }
 
-    /** Changes the expiry text and colour if the item is expired or expiring soon. */
+    //Changes the expiry text and colour
     private void applyExpiryWarning(TextView textExpiry, String expiry) {
         Long days = daysUntil(expiry);
-        if (days == null) return; // unreadable date: leave the plain text
+        if (days == null) return;
 
         if (days < 0) {
             long ago = -days;
@@ -117,7 +109,6 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         }
     }
 
-    /** Whole days from today until the expiry date (negative if already past), or null if unreadable. */
     private Long daysUntil(String dateText) {
         try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
@@ -137,7 +128,6 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         }
     }
 
-    /** Shows 6 instead of 6.0 for whole numbers. */
     private String formatQuantity(double qty) {
         if (qty == Math.floor(qty)) {
             return String.valueOf((long) qty);
@@ -150,12 +140,11 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         return s.substring(0, 1).toUpperCase() + s.substring(1);
     }
 
-    /** Holds references to the views in one row so they are not looked up repeatedly. */
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textName;
         TextView textQuantity;
         TextView textExpiry;
-        ColorStateList defaultExpiryColors; // the normal text colour, restored for plain rows
+        ColorStateList defaultExpiryColors;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);

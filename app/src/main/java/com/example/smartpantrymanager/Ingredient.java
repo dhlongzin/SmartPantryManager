@@ -1,9 +1,5 @@
 package com.example.smartpantrymanager;
 
-/**
- * Model class for a pantry item (one row in the "ingredient" table).
- * expiryDate is optional and stored as text (yyyy-MM-dd) or null.
- */
 public class Ingredient {
     private long id;
     private String name;

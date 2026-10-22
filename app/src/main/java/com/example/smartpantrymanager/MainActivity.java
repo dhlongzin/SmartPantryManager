@@ -23,11 +23,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Pantry List screen: shows every ingredient stored in the database using a
- * RecyclerView and the IngredientAdapter. From here the user can add an
- * ingredient (+ button), edit one (tap a row), or delete one (swipe a row).
- */
 public class MainActivity extends AppCompatActivity {
 
     private DatabaseHelper dbHelper;
@@ -48,12 +43,10 @@ public class MainActivity extends AppCompatActivity {
 
         dbHelper = new DatabaseHelper(this);
 
-        // Link the views from activity_main.xml
         recyclerPantry = findViewById(R.id.recyclerPantry);
         textEmpty = findViewById(R.id.textEmpty);
         FloatingActionButton fabAdd = findViewById(R.id.fabAdd);
 
-        // Set up the RecyclerView with a vertical list layout and our adapter.
         // Tapping a row opens the Add/Edit screen in edit mode.
         adapter = new IngredientAdapter(new ArrayList<>(), ingredient -> {
             Intent intent = new Intent(MainActivity.this, AddEditIngredientActivity.class);
@@ -63,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerPantry.setLayoutManager(new LinearLayoutManager(this));
         recyclerPantry.setAdapter(adapter);
 
-        // Swipe a row left or right to delete it (asks for confirmation first)
+        // Swipe a row left or right to delete it
         ItemTouchHelper.SimpleCallback swipeCallback = new ItemTouchHelper.SimpleCallback(
                 0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -89,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationHelper.setup(this, R.id.nav_pantry);
     }
 
-    /** Re-reads the database every time the screen comes back into view. */
     @Override
     protected void onResume() {
         super.onResume();
@@ -99,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
         loadPantry();
     }
 
-    /** Reads all ingredients and shows either the list or the empty message. */
     private void loadPantry() {
         List<Ingredient> ingredients = dbHelper.getAllIngredients();
         adapter.updateData(ingredients);
@@ -113,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /** Asks the user to confirm, then deletes the ingredient and refreshes the list. */
+    //Asks the user to confirm if they want to delete, then deletes the ingredient
     private void confirmDelete(Ingredient ingredient, int position) {
         new AlertDialog.Builder(this)
                 .setTitle("Delete ingredient")
@@ -123,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(this, "Ingredient deleted", Toast.LENGTH_SHORT).show();
                     loadPantry();
                 })
-                // On cancel, redraw the row so it slides back into place
+                //cancel
                 .setNegativeButton("Cancel", (dialog, which) -> adapter.notifyItemChanged(position))
                 .setOnCancelListener(dialog -> adapter.notifyItemChanged(position))
                 .show();

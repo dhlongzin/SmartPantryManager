@@ -139,7 +139,7 @@ public class AddEditIngredientActivity extends AppCompatActivity {
             valid = false;
         }
 
-        // Quantity: required, a number, greater than zero
+        // Quantity
         double quantity = 0;
         if (qtyText.isEmpty()) {
             editQuantity.setError("Enter a quantity");
