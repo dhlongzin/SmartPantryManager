@@ -12,14 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
-/**
- * Creates the SQLite database, defines the three tables and seeds the
- * recipe collection on first run. CRUD methods for pantry items are
- * added in later steps.
- *
- * Units used everywhere: g, ml, pcs, tbsp, tsp (the Add/Edit screen will
- * use a Spinner with these so units always match the recipes).
- */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "smart_pantry.db";
@@ -91,16 +83,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // ---------------------------------------------------------------
     // Seed data
-    // ---------------------------------------------------------------
 
-    /** Shortcut to build one recipe ingredient line (ids are filled by SQLite). */
     private static RecipeIngredient ri(String name, double qty, String unit) {
         return new RecipeIngredient(0, 0, name, qty, unit);
     }
 
-    /** Inserts one recipe and all of its ingredient lines. */
     private void addRecipe(SQLiteDatabase db, String name, String steps, RecipeIngredient... items) {
         ContentValues recipeValues = new ContentValues();
         recipeValues.put(COL_REC_NAME, name);
@@ -118,86 +106,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private void seedRecipes(SQLiteDatabase db) {
-        addRecipe(db, "Scrambled Eggs on Toast",
-                "1. Toast the bread.\n2. Whisk the eggs and cook in melted butter, stirring gently.\n3. Serve the eggs on the toast.",
-                ri("egg", 2, "pcs"), ri("bread", 2, "pcs"), ri("butter", 10, "g"));
+        addRecipe(db, "Pap and Tomato Relish",
+                "1. Cook the pap until thick.\n2. Fry chopped onion in oil, then add chopped tomatoes.\n3. Simmer the relish for 10 minutes and serve with the pap.",
+                ri("maize meal", 250, "g"), ri("tomato", 2, "pcs"),
+                ri("onion", 1, "pcs"), ri("cooking oil", 1, "tbsp"));
 
-        addRecipe(db, "Tomato Pasta",
-                "1. Boil the pasta until soft.\n2. Fry chopped onion and garlic in olive oil.\n3. Add chopped tomatoes and simmer for 10 minutes.\n4. Mix in the pasta and serve.",
-                ri("pasta", 200, "g"), ri("tomato", 3, "pcs"), ri("onion", 1, "pcs"),
-                ri("garlic", 2, "pcs"), ri("olive oil", 2, "tbsp"));
+        addRecipe(db, "Phutu and Amasi",
+                "1. Cook the pap.\n2. Simmer for 10 minutes and pour amasi of your choice.",
+                ri("maize meal", 200, "g"), ri("amasi", 250, "ml"));
 
-        addRecipe(db, "Cheese Omelette",
-                "1. Beat the eggs.\n2. Melt butter in a pan and pour in the eggs.\n3. Add grated cheese, fold and cook until set.",
-                ri("egg", 3, "pcs"), ri("cheese", 50, "g"), ri("butter", 10, "g"));
+        addRecipe(db, "Vetkoek",
+                "1. Mix the flour, yeast and sugar with warm water into a soft dough.\n2. Cover and leave to rise for 1 hour.\n3. Shape into balls and deep-fry in hot oil until golden brown.",
+                ri("flour", 300, "g"), ri("yeast", 10, "g"),
+                ri("sugar", 1, "tbsp"), ri("cooking oil", 250, "ml"));
 
-        addRecipe(db, "Simple Pancakes",
-                "1. Mix flour, egg, sugar and milk into a smooth batter.\n2. Fry a ladle of batter in a hot pan.\n3. Flip when bubbles appear and cook the other side.",
-                ri("flour", 150, "g"), ri("milk", 200, "ml"), ri("egg", 1, "pcs"), ri("sugar", 1, "tbsp"));
+        addRecipe(db, "Samp and Beans",
+                "1. Soak the samp and beans overnight.\n2. Boil them together for 2 to 3 hours until soft.\n3. Fry the onion in butter and stir it through.",
+                ri("samp", 250, "g"), ri("sugar bean", 200, "g"),
+                ri("onion", 1, "pcs"), ri("butter", 20, "g"));
 
-        addRecipe(db, "Egg Fried Rice",
-                "1. Cook the rice and let it cool.\n2. Stir-fry chopped onion and carrot.\n3. Push to the side, scramble the eggs, then mix in the rice.\n4. Season with soy sauce.",
-                ri("rice", 200, "g"), ri("egg", 2, "pcs"), ri("onion", 1, "pcs"),
-                ri("carrot", 1, "pcs"), ri("soy sauce", 2, "tbsp"));
+        addRecipe(db, "Chakalaka",
+                "1. Fry chopped onion in oil.\n2. Add grated carrot and curry powder and cook for 5 minutes.\n3. Add chopped tomatoes and simmer for 10 minutes.",
+                ri("carrot", 2, "pcs"), ri("onion", 1, "pcs"), ri("tomato", 2, "pcs"),
+                ri("curry powder", 2, "tsp"), ri("cooking oil", 1, "tbsp"));
 
-        addRecipe(db, "Chicken Stir-Fry",
-                "1. Slice the chicken, pepper and onion.\n2. Fry the chicken until golden.\n3. Add the vegetables and garlic and cook for 5 minutes.\n4. Add soy sauce and toss.",
-                ri("chicken", 300, "g"), ri("onion", 1, "pcs"), ri("bell pepper", 1, "pcs"),
-                ri("soy sauce", 2, "tbsp"), ri("garlic", 2, "pcs"));
+        addRecipe(db, "Morogo (Spinach) Stew",
+                "1. Wash and chop the spinach.\n2. Fry the onion in oil, add the tomato and cook until soft.\n3. Add the spinach and simmer for 10 minutes.",
+                ri("spinach", 300, "g"), ri("onion", 1, "pcs"),
+                ri("tomato", 1, "pcs"), ri("cooking oil", 1, "tbsp"));
 
-        addRecipe(db, "Mashed Potatoes",
-                "1. Peel and boil the potatoes until soft.\n2. Drain and mash with butter and warm milk.",
-                ri("potato", 4, "pcs"), ri("butter", 30, "g"), ri("milk", 100, "ml"));
+        addRecipe(db, "Boerewors and Pap",
+                "1. Cook the pap.\n2. Fry or grill the boerewors until cooked through.\n3. Fry sliced onion and serve everything together.",
+                ri("boerewors", 400, "g"), ri("maize meal", 250, "g"), ri("onion", 1, "pcs"));
 
-        addRecipe(db, "Cheese Toastie",
-                "1. Butter the outside of the bread.\n2. Place cheese between the slices.\n3. Toast in a pan until golden on both sides.",
-                ri("bread", 2, "pcs"), ri("cheese", 40, "g"), ri("butter", 10, "g"));
-
-        addRecipe(db, "Vegetable Soup",
-                "1. Chop the potatoes, carrots, onion and tomatoes.\n2. Add everything to a pot with the stock.\n3. Simmer for 25 minutes until soft.",
-                ri("potato", 2, "pcs"), ri("carrot", 2, "pcs"), ri("onion", 1, "pcs"),
-                ri("tomato", 2, "pcs"), ri("vegetable stock", 500, "ml"));
-
-        addRecipe(db, "Garlic Bread",
-                "1. Mash crushed garlic into the butter.\n2. Spread on the bread.\n3. Bake at 180C for 10 minutes.",
-                ri("bread", 4, "pcs"), ri("butter", 40, "g"), ri("garlic", 3, "pcs"));
-
-        addRecipe(db, "Egg Fried Noodles",
-                "1. Boil the noodles and drain.\n2. Fry chopped onion, then scramble in the eggs.\n3. Add the noodles and soy sauce and toss well.",
-                ri("noodle", 200, "g"), ri("egg", 2, "pcs"), ri("soy sauce", 2, "tbsp"), ri("onion", 1, "pcs"));
-
-        addRecipe(db, "Banana Pancakes",
-                "1. Mash the bananas.\n2. Mix with the egg and flour.\n3. Fry small spoonfuls until golden on both sides.",
-                ri("banana", 2, "pcs"), ri("egg", 1, "pcs"), ri("flour", 50, "g"));
-
-        addRecipe(db, "Tuna Pasta",
-                "1. Boil the pasta.\n2. Fry chopped onion in olive oil.\n3. Add the tuna, then toss through the pasta.",
-                ri("pasta", 200, "g"), ri("tuna", 1, "pcs"), ri("onion", 1, "pcs"), ri("olive oil", 1, "tbsp"));
-
-        addRecipe(db, "Cheesy Baked Potato",
-                "1. Prick the potatoes and bake at 200C for 1 hour.\n2. Cut open and add butter and grated cheese.\n3. Return to the oven for 5 minutes.",
-                ri("potato", 2, "pcs"), ri("cheese", 60, "g"), ri("butter", 20, "g"));
-
-        addRecipe(db, "Chicken and Rice",
-                "1. Brown the chicken pieces with onion and garlic.\n2. Add the rice and enough water to cover.\n3. Cover and simmer for 20 minutes until the rice is cooked.",
-                ri("chicken", 300, "g"), ri("rice", 200, "g"), ri("onion", 1, "pcs"), ri("garlic", 2, "pcs"));
-
-        addRecipe(db, "Tomato Soup",
-                "1. Fry onion and garlic until soft.\n2. Add chopped tomatoes and stock.\n3. Simmer for 20 minutes, then blend until smooth.",
-                ri("tomato", 6, "pcs"), ri("onion", 1, "pcs"), ri("garlic", 2, "pcs"), ri("vegetable stock", 400, "ml"));
-
-        addRecipe(db, "French Toast",
-                "1. Whisk the eggs and milk together.\n2. Dip the bread slices in the mixture.\n3. Fry in butter until golden on both sides.",
-                ri("bread", 4, "pcs"), ri("egg", 2, "pcs"), ri("milk", 100, "ml"), ri("butter", 10, "g"));
-
-        addRecipe(db, "Rice and Beans",
-                "1. Cook the rice.\n2. Fry onion, then add chopped tomatoes and beans.\n3. Simmer for 10 minutes and serve over the rice.",
-                ri("rice", 200, "g"), ri("kidney bean", 200, "g"), ri("onion", 1, "pcs"), ri("tomato", 2, "pcs"));
+        addRecipe(db, "Maize Meal Porridge",
+                "1. Heat the milk until it starts to simmer.\n2. Slowly stir in the maize meal.\n3. Cook on low heat for 10 minutes, stirring often.\n4. Add sugar and serve.",
+                ri("maize meal", 100, "g"), ri("milk", 250, "ml"), ri("sugar", 1, "tbsp"));
     }
 
-    // ---------------------------------------------------------------
-    // Quick checks used to verify the seed (Logcat)
-    // ---------------------------------------------------------------
 
     public int getRecipeCount() {
         SQLiteDatabase db = getReadableDatabase();
@@ -217,11 +163,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
-    // ---------------------------------------------------------------
-    // Pantry (ingredient) methods
-    // ---------------------------------------------------------------
 
-    /** Adds a pantry item. The name is stored lowercase/trimmed so matching stays simple. */
+
+    //Adds a pantry item
     public long insertIngredient(Ingredient ingredient) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues v = new ContentValues();
@@ -232,7 +176,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.insert(TABLE_INGREDIENT, null, v);
     }
 
-    /** Returns every pantry item, sorted by name. */
+    //Returns every pantry item
     public List<Ingredient> getAllIngredients() {
         List<Ingredient> list = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
@@ -249,7 +193,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    /** Returns one pantry item by id, or null if it doesn't exist. */
+
     public Ingredient getIngredientById(long id) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor c = db.query(TABLE_INGREDIENT, null, COL_ING_ID + " = ?",
@@ -290,19 +234,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         c.close();
         return exists;
     }
-    /** Deletes one pantry item by id. Returns the number of rows removed. */
+    //Deletes one pantry item by id
     public int deleteIngredient(long id) {
         SQLiteDatabase db = getWritableDatabase();
         return db.delete(TABLE_INGREDIENT, COL_ING_ID + " = ?",
                 new String[]{String.valueOf(id)});
     }
-    /** Returns every recipe, each with its list of required ingredients filled in. */
     public List<Recipe> getAllRecipes() {
         SQLiteDatabase db = getReadableDatabase();
         List<Recipe> recipes = new ArrayList<>();
         Map<Long, Recipe> recipeById = new HashMap<>();
 
-        // 1. Read all recipes
+        //Read all recipes
         Cursor c = db.query(TABLE_RECIPE, null, null, null, null, null, COL_REC_NAME + " ASC");
         while (c.moveToNext()) {
             Recipe recipe = new Recipe(
@@ -314,7 +257,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         c.close();
 
-        // 2. Read all ingredient lines and attach each to its recipe
+        // Read all ingredient lines and attach each to its recipe
         Cursor ci = db.query(TABLE_RECIPE_ING, null, null, null, null, null, null);
         while (ci.moveToNext()) {
             RecipeIngredient ri = new RecipeIngredient(
@@ -331,7 +274,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ci.close();
         return recipes;
     }
-    /** Returns one recipe by id (with its ingredient lines), or null if not found. */
     public Recipe getRecipeById(long id) {
         SQLiteDatabase db = getReadableDatabase();
         Recipe recipe = null;
