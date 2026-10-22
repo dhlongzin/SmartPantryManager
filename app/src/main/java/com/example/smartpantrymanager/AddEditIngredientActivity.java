@@ -18,23 +18,18 @@ import androidx.core.view.WindowInsetsCompat;
 import java.util.Calendar;
 import java.util.Locale;
 
-/**
- * Add/Edit Ingredient screen. If the Intent carries an ingredient id the
- * screen opens in edit mode (fields pre-filled); otherwise it adds a new item.
- */
-public class AddEditIngredientActivity extends AppCompatActivity {
 
-    /** Key used to pass the ingredient id from MainActivity through the Intent. */
+public class AddEditIngredientActivity extends AppCompatActivity {
     public static final String EXTRA_INGREDIENT_ID = "ingredient_id";
 
-    // Units must match the units used by the seeded recipes
-    private static final String[] UNITS = {"g", "ml", "pcs", "tbsp", "tsp"};
+    // Units of ingredient
+    private static final String[] UNITS = {"g", "kg", "ml", "L", "pcs", "tbsp", "tsp"};
 
     private DatabaseHelper dbHelper;
     private EditText editName, editQuantity, editExpiry;
     private Spinner spinnerUnit;
-    private long ingredientId = -1;   // -1 means "adding a new ingredient"
-    private String expiryDate = null; // stored as yyyy-MM-dd, or null if not set
+    private long ingredientId = -1;
+    private String expiryDate = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +77,6 @@ public class AddEditIngredientActivity extends AppCompatActivity {
         buttonCancel.setOnClickListener(v -> finish());
     }
 
-    /** Edit mode: reads the ingredient from the database and fills the form. */
     private void loadIngredientIntoForm() {
         Ingredient ingredient = dbHelper.getIngredientById(ingredientId);
         if (ingredient == null) {
@@ -104,7 +98,7 @@ public class AddEditIngredientActivity extends AppCompatActivity {
         }
     }
 
-    /** Opens a date picker and stores the chosen date as yyyy-MM-dd. */
+    //enter date
     private void showDatePicker() {
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
@@ -127,7 +121,6 @@ public class AddEditIngredientActivity extends AppCompatActivity {
         }, year, month, day).show();
     }
 
-    /** Validates the form, then inserts (add mode) or updates (edit mode). */
     private void saveIngredient() {
         String name = editName.getText().toString().trim();
         String qtyText = editQuantity.getText().toString().trim();
@@ -137,7 +130,7 @@ public class AddEditIngredientActivity extends AppCompatActivity {
         editQuantity.setError(null);
         boolean valid = true;
 
-        // Name: required, letters/spaces/hyphens only
+        // Name of ingredient
         if (name.isEmpty()) {
             editName.setError("Enter an ingredient name");
             valid = false;
@@ -167,11 +160,11 @@ public class AddEditIngredientActivity extends AppCompatActivity {
             }
         }
 
-        if (!valid) return; // stay on the screen so the user can fix the errors
+        if (!valid) return;
 
-        // Reject duplicates (same name and unit already in the pantry)
+        // Reject duplicates
         if (dbHelper.ingredientExists(name, unit, ingredientId)) {
-            editName.setError("Already in your pantry - edit that item instead");
+            editName.setError("Already in your pantry");
             return;
         }
 
